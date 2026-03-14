@@ -38,11 +38,12 @@ if [ ! -e "${BUILD_DIR}/Signal-Desktop/release/linux-arm64-unpacked/" ]; then
 
     #Patch to build for arm64
     
-    if [ ! -e ".bump_electronbuilder_version-applyed" ]; then
-        echo "Apply bump_electronbuilder_version.patch"
-        git apply ${ROOT}/patches/Signal-Desktop/bump_electronbuilder_version.patch
-        touch .bump_electronbuilder_version-applyed
-    fi
+    # Commented out for 8.2.x
+    # if [ ! -e ".bump_electronbuilder_version-applyed" ]; then
+    #     echo "Apply bump_electronbuilder_version.patch"
+    #     git apply ${ROOT}/patches/Signal-Desktop/bump_electronbuilder_version.patch
+    #     touch .bump_electronbuilder_version-applyed
+    # fi
     
     echo "Add fs-extra+11.2.0.patch patches"
     cp ${ROOT}/patches/Signal-Desktop/fs-extra+11.2.0.patch patches/
@@ -51,11 +52,12 @@ if [ ! -e "${BUILD_DIR}/Signal-Desktop/release/linux-arm64-unpacked/" ]; then
     cat package.json | jq -r --arg fs_extra patches/fs-extra+11.2.0.patch '.pnpm.patchedDependencies."fs-extra"=$fs_extra ' | sponge package.json
     
     #Patch to make the app responsive
-    if [ ! -e ".fix-inject-responsive.patch-applyed" ]; then
-        echo "Apply fix-inject-responsive.patch"
-        git apply ${ROOT}/patches/Signal-Desktop/inject_js_responsive.patch
-        touch .fix-inject-responsive.patch-applyed
-    fi
+    # Commented out for 8.2.x
+    # if [ ! -e ".fix-inject-responsive.patch-applyed" ]; then
+    #     echo "Apply fix-inject-responsive.patch"
+    #     git apply ${ROOT}/patches/Signal-Desktop/inject_js_responsive.patch
+    #     touch .fix-inject-responsive.patch-applyed
+    # fi
     
     echo "Add responsive.js"
     cp ${ROOT}/patches/Signal-Desktop/responsive.js ${BUILD_DIR}/Signal-Desktop/app/
