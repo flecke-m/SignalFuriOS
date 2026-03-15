@@ -73,6 +73,7 @@ echo "[3/10] Building Signal-Desktop..."
     curl -fsSL https://get.pnpm.io/install.sh | env SHELL=bash sh -
     # source ${BUILD_DIR}/.clickable/home/.bashrc
     source ~/.bashrc
+    export PATH="$HOME/.local/share/pnpm:$PATH"
     pnpm -v
   
     #pre-install X64 packages
