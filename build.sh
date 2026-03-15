@@ -157,55 +157,57 @@ cmake --build .
 # =================================================
 echo "[7/10] Install dependencies..."
 
-cd ${BUILD_DIR}
-DEPENDENCIES="libhybris-utils xdotool libmaliit-glib2 libxdo3 x11-utils"
+# Skipped for Debian package, dependencies are system packages
+# cd ${BUILD_DIR}
+# DEPENDENCIES="libhybris-utils xdotool libmaliit-glib2 libxdo3 x11-utils"
 
-for dep in $DEPENDENCIES ; do
-    apt download $dep:arm64
-    mv ${dep}_*.deb ${dep}.deb
-    rm -rvf "${dep}.deb_extract_chsdjksd" || true
-    mkdir "${dep}.deb_extract_chsdjksd"
-    dpkg-deb -x "${dep}.deb" "${dep}.deb_extract_chsdjksd"
-done
+# for dep in $DEPENDENCIES ; do
+#     apt download $dep:arm64
+#     mv ${dep}_*.deb ${dep}.deb
+#     rm -rvf "${dep}.deb_extract_chsdjksd" || true
+#     mkdir "${dep}.deb_extract_chsdjksd"
+#     dpkg-deb -x "${dep}.deb" "${dep}.deb_extract_chsdjksd"
+# done
 
 # =================================================
 # STEP 8: Downloading maliit-inputcontext-gtk3
 # =================================================
 echo "[8/11] Building maliit-inputcontext-gtk3..."
 
-cd ${BUILD_DIR}
+# Skipped for Debian, use system maliit
+# cd ${BUILD_DIR}
 
-PKGNAME="maliit-inputcontext-gtk"
-VERSION_MALIIT="0.99.1+git20151116.72d7576"
-ORIG_URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/maliit-inputcontext-gtk/0.99.1+git20151116.72d7576-3build3/maliit-inputcontext-gtk_0.99.1+git20151116.72d7576.orig.tar.xz"
-DEBIAN_URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/maliit-inputcontext-gtk/0.99.1+git20151116.72d7576-3build3/maliit-inputcontext-gtk_0.99.1+git20151116.72d7576-3build3.debian.tar.xz"
+# PKGNAME="maliit-inputcontext-gtk"
+# VERSION_MALIIT="0.99.1+git20151116.72d7576"
+# ORIG_URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/maliit-inputcontext-gtk/0.99.1+git20151116.72d7576-3build3/maliit-inputcontext-gtk_0.99.1+git20151116.72d7576.orig.tar.xz"
+# DEBIAN_URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/maliit-inputcontext-gtk/0.99.1+git20151116.72d7576-3build3/maliit-inputcontext-gtk_0.99.1+git20151116.72d7576-3build3.debian.tar.xz"
 
 
 
-WORKDIR_MALIIT="${BUILD_DIR}/${PKGNAME}-${VERSION_MALIIT}"
-rm -rvf $WORKDIR_MALIIT/ || true
-mkdir -p "$WORKDIR_MALIIT"
-cd "$WORKDIR_MALIIT"
+# WORKDIR_MALIIT="${BUILD_DIR}/${PKGNAME}-${VERSION_MALIIT}"
+# rm -rvf $WORKDIR_MALIIT/ || true
+# mkdir -p "$WORKDIR_MALIIT"
+# cd "$WORKDIR_MALIIT"
 
-echo "📦 Download sources..."
-wget -q "$ORIG_URL" -O "${PKGNAME}_${VERSION_MALIIT}.orig.tar.xz"
-wget -q "$DEBIAN_URL" -O "${PKGNAME}_${VERSION_MALIIT}.debian.tar.xz"
+# echo "📦 Download sources..."
+# wget -q "$ORIG_URL" -O "${PKGNAME}_${VERSION_MALIIT}.orig.tar.xz"
+# wget -q "$DEBIAN_URL" -O "${PKGNAME}_${VERSION_MALIIT}.debian.tar.xz"
 
-echo "📂 Extract original code..."
-tar -xf "${PKGNAME}_${VERSION_MALIIT}.orig.tar.xz"
-SRC_DIR_MALIIT=$(tar -tf "${PKGNAME}_${VERSION_MALIIT}.orig.tar.xz" | head -1 | cut -d/ -f1)
+# echo "📂 Extract original code..."
+# tar -xf "${PKGNAME}_${VERSION_MALIIT}.orig.tar.xz"
+# SRC_DIR_MALIIT=$(tar -tf "${PKGNAME}_${VERSION_MALIIT}.orig.tar.xz" | head -1 | cut -d/ -f1)
 
-echo "📂 Extract debian files..."
-tar -xf "${PKGNAME}_${VERSION_MALIIT}.debian.tar.xz" -C "$SRC_DIR_MALIIT"
+# echo "📂 Extract debian files..."
+# tar -xf "${PKGNAME}_${VERSION_MALIIT}.debian.tar.xz" -C "$SRC_DIR_MALIIT"
 
-echo "Apply patch..."
-cd ${BUILD_DIR}/$SRC_DIR_MALIIT/maliit-inputcontext-gtk-$VERSION_MALIIT/
-patch ${BUILD_DIR}/$SRC_DIR_MALIIT/maliit-inputcontext-gtk-$VERSION_MALIIT/gtk-input-context/client-gtk/client-imcontext-gtk.c  ${ROOT}/patches/maliit-inputcontext-gtk/client-imcontext-gtk.c.patch
-echo "${ROOT}/patches/maliit-inputcontext-gtk/client-imcontext-gtk.c.patch"
+# echo "Apply patch..."
+# cd ${BUILD_DIR}/$SRC_DIR_MALIIT/maliit-inputcontext-gtk-$VERSION_MALIIT/
+# patch ${BUILD_DIR}/$SRC_DIR_MALIIT/maliit-inputcontext-gtk-$VERSION_MALIIT/gtk-input-context/client-gtk/client-imcontext-gtk.c  ${ROOT}/patches/maliit-inputcontext-gtk/client-imcontext-gtk.c.patch
+# echo "${ROOT}/patches/maliit-inputcontext-gtk/client-imcontext-gtk.c.patch"
 
-echo "Compile..."
-EDITOR=true dpkg-source --commit . fix-keyboard
-DEB_BUILD_OPTIONS=nocheck dpkg-buildpackage -us -uc -a arm64
+# echo "Compile..."
+# EDITOR=true dpkg-source --commit . fix-keyboard
+# DEB_BUILD_OPTIONS=nocheck dpkg-buildpackage -us -uc -a arm64
 
 # =================================================
 # STEP 9: Build libnotify  -> commenting out to have normal libnotify.
@@ -247,29 +249,31 @@ echo "[10/11] Copying files..."
 
 
 echo "Copying dependencies..."
-cd ${BUILD_DIR}
-# Copie des fichiers du dossier /lib/ de chaque paquet
-rm -rvf $INSTALL_DIR/lib
-mkdir -p "$INSTALL_DIR/lib/aarch64-linux-gnu/gtk-3.0/3.0.0/immodules/"
-for DIR in *_extract_chsdjksd; do
-    if [ -d "$DIR/usr/lib/aarch64-linux-gnu/" ]; then
-        cp -r "$DIR/usr/lib/aarch64-linux-gnu/"* "$INSTALL_DIR/lib/aarch64-linux-gnu/"
-    fi
-done
+# Skipped for Debian
+# cd ${BUILD_DIR}
+# # Copie des fichiers du dossier /lib/ de chaque paquet
+# rm -rvf $INSTALL_DIR/lib
+# mkdir -p "$INSTALL_DIR/lib/aarch64-linux-gnu/gtk-3.0/3.0.0/immodules/"
+# for DIR in *_extract_chsdjksd; do
+#     if [ -d "$DIR/usr/lib/aarch64-linux-gnu/" ]; then
+#         cp -r "$DIR/usr/lib/aarch64-linux-gnu/"* "$INSTALL_DIR/lib/aarch64-linux-gnu/"
+#     fi
+# done
 
-# Copy binaries in bin/
-mkdir -p "$INSTALL_DIR/bin"
-cp *_extract_chsdjksd/usr/bin/xdotool "$INSTALL_DIR/bin/"
-cp *_extract_chsdjksd/usr/bin/getprop "$INSTALL_DIR/bin/"
-cp *_extract_chsdjksd/usr/bin/xprop "$INSTALL_DIR/bin/"
-cp *_extract_chsdjksd/usr/bin/xev "$INSTALL_DIR/bin/"
+# # Copy binaries in bin/
+# mkdir -p "$INSTALL_DIR/bin"
+# cp *_extract_chsdjksd/usr/bin/xdotool "$INSTALL_DIR/bin/"
+# cp *_extract_chsdjksd/usr/bin/getprop "$INSTALL_DIR/bin/"
+# cp *_extract_chsdjksd/usr/bin/xprop "$INSTALL_DIR/bin/"
+# cp *_extract_chsdjksd/usr/bin/xev "$INSTALL_DIR/bin/"
 
 echo "Copying signal-desktop..."
 mkdir -p "$INSTALL_DIR/opt/Signal"
 cp -r ${BUILD_DIR}/Signal-Desktop/release/linux-arm64-unpacked/* "$INSTALL_DIR/opt/Signal/" || true
 
 echo "Copying maliit-input-context..."
-cp $WORKDIR_MALIIT/maliit-inputcontext-gtk-$VERSION_MALIIT/builddir/gtk3/gtk-3.0/im-maliit.so $INSTALL_DIR/lib/aarch64-linux-gnu/gtk-3.0/3.0.0/immodules/
+# Skipped for Debian
+# cp $WORKDIR_MALIIT/maliit-inputcontext-gtk-$VERSION_MALIIT/builddir/gtk3/gtk-3.0/im-maliit.so $INSTALL_DIR/lib/aarch64-linux-gnu/gtk-3.0/3.0.0/immodules/
 
 #echo "Copying libnotify"
 #cp ${BUILD_DIR}/libnotify/libnotify-0.8.3/obj-aarch64-linux-gnu/libnotify/* $INSTALL_DIR/lib/aarch64-linux-gnu/ || true
