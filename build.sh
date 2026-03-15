@@ -300,6 +300,7 @@ cp ${ROOT}/utils/sleep.sh "$INSTALL_DIR/utils/"
 cp ${ROOT}/utils/mkdir.sh "$INSTALL_DIR/utils/"
 cp ${ROOT}/utils/get-scale.sh "$INSTALL_DIR/utils/"
 cp ${ROOT}/utils/filedialog-deamon.sh "$INSTALL_DIR/utils/"
+mkdir -p "$INSTALL_DIR/bin"
 cp ${BUILD_DIR}/xdg-open/build/xdg-open $INSTALL_DIR/bin/
 mkdir $INSTALL_DIR/utils/download-helper/
 cp -r ${BUILD_DIR}/download-helper/qml $INSTALL_DIR/utils/download-helper/
