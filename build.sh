@@ -120,7 +120,7 @@ cp -r ${ROOT}/utils/xdg-open/ ${BUILD_DIR}/
 cd ${BUILD_DIR}/xdg-open/
 mkdir -p build
 cd build
-cmake ..
+cmake .. -DCMAKE_PREFIX_PATH=/usr/lib/aarch64-linux-gnu/cmake
 make
 
 # ===================================
@@ -132,7 +132,7 @@ cp -r ${ROOT}/utils/download-helper/ ${BUILD_DIR}/download-helper
 cd ${BUILD_DIR}/download-helper/qml-download-helper-module/
 mkdir build
 cd build
-cmake ..
+cmake .. -DCMAKE_PREFIX_PATH=/usr/lib/aarch64-linux-gnu/cmake
 cmake --build .
 
 rm -rvf ${BUILD_DIR}/upload-helper
@@ -140,7 +140,7 @@ cp -r ${ROOT}/utils/upload-helper/ ${BUILD_DIR}/upload-helper
 cd ${BUILD_DIR}/upload-helper/qml-upload-helper-module/
 mkdir build
 cd build
-cmake ..
+cmake .. -DCMAKE_PREFIX_PATH=/usr/lib/aarch64-linux-gnu/cmake
 cmake --build .
 
 rm -rvf ${BUILD_DIR}/mic-permission-requester/
@@ -148,7 +148,7 @@ cp -r ${ROOT}/utils/mic-permission-requester/ ${BUILD_DIR}/mic-permission-reques
 cd ${BUILD_DIR}/mic-permission-requester/AudioModule/
 mkdir build
 cd build
-cmake ..
+cmake .. -DCMAKE_PREFIX_PATH=/usr/lib/aarch64-linux-gnu/cmake
 cmake --build .
 
 
