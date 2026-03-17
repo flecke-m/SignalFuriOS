@@ -79,7 +79,6 @@ echo "[3/10] Building Signal-Desktop..."
 
  if [ ! -e "${BUILD_DIR}/Signal-Desktop/release/linux-arm64-unpacked/" ]; then
     curl -fsSL https://get.pnpm.io/install.sh | env SHELL=bash sh -
-    # source ${BUILD_DIR}/.clickable/home/.bashrc
     source ~/.bashrc
     export PATH="$HOME/.local/share/pnpm:$PATH"
     pnpm -v
@@ -294,14 +293,7 @@ cp ${BUILD_DIR}/icon-splash.png "$DEB_ICONS_DIR/signalfurios-splash.png"
 echo "Copying app files..."
 mkdir -p "$DEB_APPLICATIONS_DIR"
 cp ${ROOT}/signalfurios.desktop "$DEB_APPLICATIONS_DIR/"
-cp ${ROOT}/manifest.json "$DEB_OPT_DIR/"
-cp ${ROOT}/content-hub.json "$DEB_OPT_DIR/"
-cp ${ROOT}/signalfurios.apparmor "$DEB_OPT_DIR/"
 cp ${ROOT}/launcher.sh "$DEB_OPT_DIR/"
-cp ${ROOT}/pushexec "$DEB_OPT_DIR/"
-cp ${ROOT}/push-apparmor.json "$DEB_OPT_DIR/"
-cp ${ROOT}/signalfurios-push.apparmor "$DEB_OPT_DIR/"
-cp ${ROOT}/signalfurios-push-helper.json "$DEB_OPT_DIR/"
 
 echo "Copying utils..."
 mkdir -p "$DEB_LIB_DIR"
@@ -346,10 +338,10 @@ chmod +x $DEB_OPT_DIR/chrome_crashpad_handler
 
 
 # ========================
-# STEP 11: BUILD THE CLICK PACKAGE
+# STEP 11: BUILD THE DEBIAN PACKAGE
 # ========================
-echo "[11/11] Building click package..."
-# click build "$INSTALL_DIR"
+echo "[11/11] Building Debian package..."
+# dpkg-buildpackage -us -uc
 
-echo "✅ Preparation done, building the .click package."
+echo "✅ Preparation done, building the .deb package."
  
