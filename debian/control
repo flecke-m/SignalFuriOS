@@ -6,6 +6,6 @@ Build-Depends: debhelper-compat (= 13), git, jq, curl, build-essential, python3,
 
 Package: signalfurios
 Architecture: arm64
-Depends: ${misc:Depends}, libgtk-3-0 | libgtk-3.0-0, libgtk2.0-0 | libgtk2.0, libglib2.0-0, libgdk-pixbuf2.0-0, libcairo2, libpango-1.0-0, libatk1.0-0, libx11-6, libasound2, libnss3
+Depends: ${misc:Depends}, libgtk-3-0, libgtk2.0-0, libglib2.0-0, libgdk-pixbuf2.0-0, libcairo2, libpango-1.0-0, libatk1.0-0, libx11-6, libasound2, libnss3
 Description: Signal Desktop for FuriOS with responsive design
  Signal Desktop packaged for Debian with responsive UI modifications for FuriOS.
